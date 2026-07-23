@@ -1,0 +1,16 @@
+public class ArrayAccess {
+    public static void main(String[] args) {
+        int[] numbers = {10, 20, 30, 40, 50};
+        int targetIndex = 2;
+
+        printElementAtIndex(numbers, targetIndex);
+    }
+
+    public static void printElementAtIndex(int[] arr, int index) {
+        if (index >= 0 && index < arr.length) {
+            System.out.println("Element at index " + index + ": " + arr[index]);
+        } else {
+            System.out.println("Error: Index " + index + " is out of bounds for length " + arr.length);
+        }
+    }
+}
