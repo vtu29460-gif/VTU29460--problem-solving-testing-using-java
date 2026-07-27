@@ -1,0 +1,23 @@
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class FilterExample {
+
+    static void process(List<Integer> numbers,
+                        Predicate<Integer> condition) {
+
+        numbers.stream()
+               .filter(condition)
+               .forEach(System.out::println);
+    }
+
+    public static void main(String[] args) {
+
+        List<Integer> numbers = Arrays.asList(10, 15, 20, 25, 30);
+
+        process(numbers, n -> n > 20);
+
+        process(numbers, n -> n % 2 == 0);
+    }
+}
