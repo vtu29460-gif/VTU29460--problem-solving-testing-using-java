@@ -1,0 +1,12 @@
+public class LastDigitSum {
+    public static int sumOfLastDigits(int num1, int num2) {
+        int lastDigit1 = Math.abs(num1) % 10;
+        int lastDigit2 = Math.abs(num2) % 10;
+        return lastDigit1 + lastDigit2;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(sumOfLastDigits(27, 84));  
+        System.out.println(sumOfLastDigits(-19, 5));  
+    }
+}
