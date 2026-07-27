@@ -1,0 +1,27 @@
+public class DigitSum {
+
+    public static int getDigitSum(int number, String option) {
+        int sum = 0;
+        number = Math.abs(number); 
+        while (number > 0) {
+            int digit = number % 10;
+            
+            if (option.equalsIgnoreCase("even") && digit % 2 == 0) {
+                sum += digit;
+            } else if (option.equalsIgnoreCase("odd") && digit % 2 != 0) {
+                sum += digit;
+            }
+            
+            number /= 10; // Remove the last digit
+        }
+        
+        return sum;
+    }
+
+    public static void main(String[] args) {
+        int num = 4729385;
+        
+        System.out.println("Even sum: " + getDigitSum(num, "even")); // Output: 14
+        System.out.println("Odd sum: " + getDigitSum(num, "odd"));   // Output: 24
+    }
+}
