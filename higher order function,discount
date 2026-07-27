@@ -1,0 +1,31 @@
+import java.util.Scanner;
+public class Discount {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter the total amount: ");
+        double total = sc.nextDouble();
+
+        System.out.print("Enter Order number: ");
+        int order = sc.nextInt();
+
+        double discount = 0;
+
+        if (order == 1) {
+            discount = total * 0.10; // 10% discount
+        } else if (order == 2) {
+            discount = total * 0.20; // 20% discount
+        } else {
+            discount = 0; // No discount
+        }
+
+        double finalAmount = total - discount;
+
+        System.out.println("Discount: " + discount);
+        System.out.println("Total amount after discount: " + finalAmount);
+
+        sc.close();
+    }
+}
