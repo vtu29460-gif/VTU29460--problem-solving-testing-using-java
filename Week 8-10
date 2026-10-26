@@ -1,0 +1,165 @@
+import java.util.*;
+
+abstract class Tree {
+    private int value, depth;
+    private Color color;
+
+    enum Color { RED, GREEN }
+
+    Tree(int value, Color color, int depth) {
+        this.value = value;
+        this.color = color;
+        this.depth = depth;
+    }
+
+    int getValue() { return value; }
+    Color getColor() { return color; }
+    int getDepth() { return depth; }
+
+    abstract void accept(TreeVis visitor);
+}
+
+class TreeNode extends Tree {
+    List<Tree> children = new ArrayList<>();
+
+    TreeNode(int v, Color c, int d) {
+        super(v, c, d);
+    }
+
+    void addChild(Tree t) { children.add(t); }
+
+    void accept(TreeVis visitor) {
+        visitor.visitNode(this);
+        for (Tree t : children) t.accept(visitor);
+    }
+}
+
+class TreeLeaf extends Tree {
+    TreeLeaf(int v, Color c, int d) {
+        super(v, c, d);
+    }
+
+    void accept(TreeVis visitor) {
+        visitor.visitLeaf(this);
+    }
+}
+
+abstract class TreeVis {
+    abstract int getResult();
+    abstract void visitNode(TreeNode node);
+    abstract void visitLeaf(TreeLeaf leaf);
+}
+
+class SumInLeavesVisitor extends TreeVis {
+    int sum = 0;
+
+    int getResult() { return sum; }
+    void visitNode(TreeNode n) {}
+    void visitLeaf(TreeLeaf l) { sum += l.getValue(); }
+}
+
+class ProductOfRedNodesVisitor extends TreeVis {
+    long product = 1;
+    static final int MOD = 1000000007;
+
+    int getResult() { return (int) product; }
+
+    void visitNode(TreeNode n) {
+        if (n.getColor() == Tree.Color.RED)
+            product = product * n.getValue() % MOD;
+    }
+
+    void visitLeaf(TreeLeaf l) {
+        if (l.getColor() == Tree.Color.RED)
+            product = product * l.getValue() % MOD;
+    }
+}
+
+class FancyVisitor extends TreeVis {
+    int greenLeaves = 0, evenNodes = 0;
+
+    int getResult() {
+        return Math.abs(greenLeaves - evenNodes);
+    }
+
+    void visitNode(TreeNode n) {
+        if (n.getDepth() % 2 == 0)
+            evenNodes += n.getValue();
+    }
+
+    void visitLeaf(TreeLeaf l) {
+        if (l.getColor() == Tree.Color.GREEN)
+            greenLeaves += l.getValue();
+    }
+}
+
+public class Solution {
+    static Tree build(int u, int parent, int depth,
+                      int[] values, Tree.Color[] colors,
+                      List<Integer>[] edges) {
+        List<Integer> children = new ArrayList<>();
+
+        for (int v : edges[u])
+            if (v != parent) children.add(v);
+
+        if (children.isEmpty())
+            return new TreeLeaf(values[u], colors[u], depth);
+
+        TreeNode node = new TreeNode(values[u], colors[u], depth);
+
+        for (int v : children)
+            node.addChild(build(v, u, depth + 1, values, colors, edges));
+
+        return node;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        int[] values = new int[n];
+        for (int i = 0; i < n; i++) values[i] = sc.nextInt();
+
+        Tree.Color[] colors = new Tree.Color[n];
+        for (int i = 0; i < n; i++)
+            colors[i] = sc.nextInt() == 0
+                    ? Tree.Color.RED : Tree.Color.GREEN;
+
+        List<Integer>[] edges = new ArrayList[n];
+        for (int i = 0; i < n; i++) edges[i] = new ArrayList<>();
+
+        for (int i = 0; i < n - 1; i++) {
+            int u = sc.nextInt() - 1;
+            int v = sc.nextInt() - 1;
+            edges[u].add(v);
+            edges[v].add(u);
+        }
+
+        Tree root = build(0, -1, 0, values, colors, edges);
+
+        SumInLeavesVisitor a = new SumInLeavesVisitor();
+        ProductOfRedNodesVisitor b = new ProductOfRedNodesVisitor();
+        FancyVisitor c = new FancyVisitor();
+
+        root.accept(a);
+        root.accept(b);
+        root.accept(c);
+
+        System.out.println(a.getResult());
+        System.out.println(b.getResult());
+        System.out.println(c.getResult());
+        sc.close();
+    }
+}
+Input:
+5
+4 7 2 5 12
+0 1 0 0 1
+1 2
+1 3
+3 4
+3 5
+Output:
+24
+40
+15
