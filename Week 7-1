@@ -1,0 +1,33 @@
+class BrowserHistory {
+    String[] history;
+    int current;
+    int size;
+
+    public BrowserHistory(String homepage) {
+        history = new String[5001];
+        history[0] = homepage;
+        current = 0;
+        size = 1;
+    }
+
+    public void visit(String url) {
+        current++;
+        history[current] = url;
+        size = current + 1;
+    }
+
+    public String back(int steps) {
+        current = Math.max(0, current - steps);
+        return history[current];
+    }
+
+    public String forward(int steps) {
+        current = Math.min(size - 1, current + steps);
+        return history[current];
+    }
+}
+Input
+["BrowserHistory","visit","visit","visit","back","back","forward","visit","forward","back","back"]
+[["leetcode.com"],["google.com"],["facebook.com"],["youtube.com"],[1],[1],[1],["linkedin.com"],[2],[2],[7]]
+Output
+[null,null,null,null,"facebook.com","google.com","facebook.com",null,"linkedin.com","google.com","leetcode.com"]
