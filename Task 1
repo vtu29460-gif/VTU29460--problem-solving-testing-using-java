@@ -1,0 +1,10 @@
+public class array 
+{
+    public static void main(String[] args) 
+    {
+        int [] numbers={1,24,51,61,244};
+        
+        System.out.println(numbers[5]);
+       
+    }
+}
