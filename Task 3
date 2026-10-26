@@ -1,0 +1,13 @@
+import java.util.Arrays;
+
+public class Array
+{
+    public static void main(String[] args) 
+    {
+        int [] numbers={1,24,51,61,244};
+        int max = Arrays.stream(numbers).max().getAsInt();
+
+        System.out.println("Maximum value is " +max);
+       
+    }
+}
