@@ -1,0 +1,46 @@
+import java.util.*;
+
+public class Solution {
+    static Iterator func(ArrayList list) {
+        Iterator it = list.iterator();
+
+        while (it.hasNext()) {
+            if (it.next() instanceof String) break;
+        }
+
+        return it;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        ArrayList list = new ArrayList();
+
+        for (int i = 0; i < n; i++)
+            list.add(sc.nextInt());
+
+        list.add("###");
+
+        int m = sc.nextInt();
+        for (int i = 0; i < m; i++)
+            list.add(sc.next());
+
+        Iterator it = func(list);
+
+        while (it.hasNext())
+            System.out.println(it.next());
+
+        sc.close();
+    }
+}
+Input:
+2
+1
+2
+2
+hello
+java
+Output:
+hello
+java
