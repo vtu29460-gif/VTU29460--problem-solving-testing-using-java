@@ -1,0 +1,29 @@
+class BiCycle {
+    String define_me() {
+        return "a vehicle with pedals.";
+    }
+}
+
+class MotorCycle extends BiCycle {
+    String define_me() {
+        return "a cycle with an engine.";
+    }
+
+    MotorCycle() {
+        System.out.println(
+            "Hello I am a motorcycle, I am " + super.define_me()
+        );
+        System.out.println(
+            "My ancestor is a cycle who is " + super.define_me()
+        );
+    }
+}
+
+public class Solution {
+    public static void main(String[] args) {
+        new MotorCycle();
+    }
+}
+Output:
+Hello I am a motorcycle, I am a vehicle with pedals.
+My ancestor is a cycle who is a vehicle with pedals.
