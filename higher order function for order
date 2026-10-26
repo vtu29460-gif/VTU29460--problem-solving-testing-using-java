@@ -1,0 +1,16 @@
+import java.util.function.Function;
+public class HigherOrderFunction
+{
+    static void processOrder(double order,Function<Double, Double> operation)
+    {
+        double result = operation.apply(order);
+        System.out.println("Order: " + result);
+    }
+    public static void main(String[] args)
+    {
+        double Order = 5000;
+        processOrder(Order, s -> s - (s*0.10));
+        processOrder(Order, s -> s - (s*0.20));
+        processOrder(Order, s -> s);
+    }
+}
